@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>WiFi Login - Redirecting...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
+<style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #050816;
+        color: #e5e7eb;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .container {
+        text-align: center;
+        max-width: 420px;
+        padding: 24px 20px 28px;
+        background: radial-gradient(circle at top, rgba(56,189,248,0.15), transparent 55%),
+                    radial-gradient(circle at bottom, rgba(129,140,248,0.18), transparent 60%),
+                    #020617;
+        border-radius: 18px;
+        box-shadow:
+            0 18px 45px rgba(15,23,42,0.7),
+            0 0 0 1px rgba(148,163,184,0.18);
+    }
+    .logo {
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        font-size: 13px;
+        text-transform: uppercase;
+        color: #a5b4fc;
+        margin-bottom: 6px;
+    }
+    .title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #f9fafb;
+    }
+    .subtitle {
+        font-size: 13px;
+        color: #cbd5f5;
+        margin-bottom: 20px;
+    }
+    .spinner {
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        border: 3px solid rgba(148,163,184,0.3);
+        border-top-color: #38bdf8;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 12px;
+    }
+    .small {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 6px;
+        line-height: 1.5;
+    }
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 14px;
+        padding: 9px 16px;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(to right, #22c55e, #16a34a);
+        color: #ecfdf5;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow:
+            0 10px 25px rgba(34,197,94,0.35),
+            0 0 0 1px rgba(21,128,61,0.4);
+    }
+    .btn span.icon {
+        font-size: 15px;
+    }
+    .meta {
+        margin-top: 14px;
+        font-size: 10px;
+        color: #6b7280;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+</style>
+
+<script type="text/javascript">
+// Auto-redirect to the deployed billing page
+// We pass through some hotspot variables so the backend can use them if needed
+function buildBillingUrl() {
+    var base = 'https://kataleafrica.com/wifi?business=2f122f6e-ac67-4767-961a-6b966971b439';
+
+    // RouterOS will substitute these values on the router before sending to the client
+    var params = [
+        'mac=' + encodeURIComponent('$(mac-esc)'),
+        'ip=' + encodeURIComponent('$(ip)'),
+        'link_login_only=' + encodeURIComponent('$(link-login-only)'),
+        'link_orig=' + encodeURIComponent('$(link-orig-esc)'),
+        'username=' + encodeURIComponent('$(username)')
+    ];
+
+    return base + '&' + params.join('&');
+}
+
+function redirectToBilling() {
+    var url = buildBillingUrl();
+    // Use replace so the user doesn't go "back" to this technical page
+    window.location.replace(url);
+}
+
+// Trigger redirect as soon as the page loads
+window.onload = function () {
+    // small timeout so very old phones render something if redirect is slow
+    setTimeout(redirectToBilling, 400);
+};
+</script>
+
+</head>
+
+<body>
+<div class="container">
+    <div class="logo">Nicholas Wifi</div>
+    <div class="title">Connecting you to WiFi…</div>
+    <div class="subtitle">
+        Please wait while we open the secure payment page on
+        <strong>Katale Africa</strong>.
+    </div>
+
+    <div class="spinner"></div>
+
+    <div class="small">
+        If nothing happens after a few seconds, tap the button below to continue.
+    </div>
+
+    <a href="javascript:void(0)" class="btn" onclick="redirectToBilling()">
+        <span class="icon">🔗</span>
+        <span>Go to WiFi Packages</span>
+    </a>
+
+    <div class="meta">
+        Router: <span>$(identity)</span><br/>
+        Device MAC: <span>$(mac-esc)</span>
+    </div>
+</div>
+
+</body>
+</html>

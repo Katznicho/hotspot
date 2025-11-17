@@ -1,0 +1,44 @@
+MikroTik Hotspot Setup Commands for Katale Africa WiFi Billing
+===============================================================
+
+Run all of these in the MikroTik router terminal (Winbox -> New Terminal),
+adjusting "hotspot1" or IPs if your setup is different.
+
+1) Ensure DNS works
+-------------------
+
+/ip dns
+set servers=1.1.1.1,8.8.8.8 allow-remote-requests=yes
+
+
+2) Allow kataleafrica.com through the hotspot walled garden
+----------------------------------------------------------
+
+/ip hotspot walled-garden
+add server=hotspot1 dst-host=kataleafrica.com
+add server=hotspot1 dst-host=*.kataleafrica.com
+
+
+3) Ensure hotspot uses the custom login.html folder
+---------------------------------------------------
+
+/ip hotspot profile
+set [find name="hotspot1"] html-directory=hotspot
+
+
+4) Optional: Use a simple local login domain for the router
+-----------------------------------------------------------
+
+This avoids SSL issues on the router login domain itself; the browser will
+still be redirected to the secure billing URL:
+https://kataleafrica.com/wifi?business=2f122f6e-ac67-4767-961a-6b966971b439
+
+/ip hotspot profile
+set [find name="hotspot1"] dns-name=login.katale.local
+
+/ip dns static
+add name=login.katale.local address=10.5.50.1
+
+Replace 10.5.50.1 with your hotspot router IP if different.
+
+
