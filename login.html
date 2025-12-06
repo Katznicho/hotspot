@@ -118,14 +118,10 @@ function buildBillingUrl() {
 }
 
 function redirectToBilling() {
-    var url = buildBillingUrl();
-    // Use replace so the user doesn't go "back" to this technical page
-    window.location.replace(url);
+    window.location.replace(buildBillingUrl());
 }
 
-// Trigger redirect as soon as the page loads
 window.onload = function () {
-    // small timeout so very old phones render something if redirect is slow
     setTimeout(redirectToBilling, 400);
 };
 </script>
@@ -134,29 +130,81 @@ window.onload = function () {
 
 <body>
 <div class="container">
-    <div class="logo">Nicholas Wifi</div>
-    <div class="title">Connecting you to WiFi…</div>
-    <div class="subtitle">
-        Please wait while we open the secure payment page on
-        <strong>Katale Africa</strong>.
-    </div>
+    <div class="logo">Julio WiFi</div>
+    <div class="title">WiFi Login</div>
+    <div class="subtitle">Enter your voucher code or purchase a package</div>
 
-    <div class="spinner"></div>
+    <!-- MikroTik CHAP Authentication Support -->
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
 
-    <div class="small">
-        If nothing happens after a few seconds, tap the button below to continue.
+    <script src="./js/md5.js"></script>
+    <script>
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+    </script>
+    $(endif)
+
+    <!-- Direct Login Form (like other provider) -->
+    <form name="login" 
+          id="loginForm" 
+          action="$(link-login-only)" 
+          method="post" 
+          $(if chap-id) onSubmit="return doLogin()" $(endif)
+          style="margin: 20px 0;">
+        
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+
+        <div style="display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 15px;">
+            <input 
+                type="text" 
+                name="username" 
+                value="$(username)" 
+                placeholder="Enter your voucher code"
+                required
+                autofocus
+                style="padding: 12px; border-radius: 8px; border: 1px solid rgba(148,163,184,0.3); background: rgba(15,23,42,0.5); color: #e5e7eb; min-width: 200px; font-size: 14px;"
+            />
+            <button type="submit" style="padding: 12px 24px; border-radius: 8px; border: none; background: linear-gradient(to right, #22c55e, #16a34a); color: #ecfdf5; font-weight: 500; cursor: pointer; font-size: 14px;">
+                Login
+            </button>
+        </div>
+        
+        <!-- Hidden Password Field (MikroTik Compatibility) -->
+        <input type="hidden" name="password" value="" />
+    </form>
+
+    <div class="small" style="margin: 15px 0;">
+        Or purchase a package below
     </div>
 
     <a href="javascript:void(0)" class="btn" onclick="redirectToBilling()">
         <span class="icon">🔗</span>
-        <span>Go to WiFi Packages</span>
+        <span>Go to WiFi portal</span>
     </a>
 
     <div class="meta">
         Router: <span>$(identity)</span><br/>
-        Device MAC: <span>$(mac-esc)</span>
+        Your MAC: <span>$(mac-esc)</span>
     </div>
 </div>
+
+<!-- ⭐ CRITICAL FIX ⭐ -->
+<!-- Hidden form so your backend can POST login back to MikroTik -->
+<form id="mkLoginForm" action="$(link-login-only)" method="post" style="display:none;">
+    <input type="hidden" name="username" id="mk_username">
+    <input type="hidden" name="password" id="mk_password">
+</form>
 
 </body>
 </html>
