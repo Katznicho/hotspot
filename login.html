@@ -101,12 +101,14 @@
 // Auto-redirect to the deployed billing page
 // We pass through some hotspot variables so the backend can use them if needed
 function buildBillingUrl() {
-    var base = 'https://kataleafrica.com/wifi?business=2f122f6e-ac67-4767-961a-6b966971b439';
+    var base = 'https://kataleafrica.com/wifi?business=4dabea17-734a-408a-9bc3-d7f8aaeaaad1';
 
     // RouterOS will substitute these values on the router before sending to the client
+    // link-login should be a simple token, but encode it to be safe for URL
     var params = [
         'mac=' + encodeURIComponent('$(mac-esc)'),
         'ip=' + encodeURIComponent('$(ip)'),
+        'link_login=' + encodeURIComponent('$(link-login)'),
         'link_login_only=' + encodeURIComponent('$(link-login-only)'),
         'link_orig=' + encodeURIComponent('$(link-orig-esc)'),
         'username=' + encodeURIComponent('$(username)')
