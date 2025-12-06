@@ -1,40 +1,147 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>mikrotik hotspot > error</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>WiFi Connection Error - $(identity)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="expires" content="-1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style type="text/css">
-<!--
-textarea,input,select {
-	background-color: #FDFBFB;
-	border: 1px #BBBBBB solid;
-	padding: 2px;
-	margin: 1px;
-	font-size: 14px;
-	color: #808080;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{ color: #737373; font-size: 12px; font-family: verdana; }
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #050816;
+    color: #e5e7eb;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
 
-a, a:link, a:visited, a:active { color: #AAAAAA; text-decoration: none; font-size: 12px; }
-a:hover { border-bottom: 1px dotted #c1c1c1; color: #AAAAAA; }
-img {border: none;}
-td { font-size: 12px; color: #7A7A7A; }
+.container {
+    background: radial-gradient(circle at top, rgba(239,68,68,0.15), transparent 55%),
+                radial-gradient(circle at bottom, rgba(185,28,28,0.18), transparent 60%),
+                #020617;
+    border-radius: 18px;
+    padding: 32px 28px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 18px 45px rgba(15,23,42,0.7),
+                0 0 0 1px rgba(239,68,68,0.3);
+    text-align: center;
+}
 
--->
+.icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    background: rgba(239,68,68,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.logo {
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #fca5a5;
+    margin-bottom: 8px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #f9fafb;
+    margin-bottom: 12px;
+}
+
+.error-message {
+    font-size: 15px;
+    color: #fca5a5;
+    margin-bottom: 24px;
+    line-height: 1.6;
+    padding: 16px;
+    background: rgba(239,68,68,0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(239,68,68,0.2);
+}
+
+.error-details {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 28px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    color: #eff6ff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(59,130,246,0.35),
+                0 0 0 1px rgba(37,99,235,0.4);
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 30px rgba(59,130,246,0.4),
+                0 0 0 1px rgba(37,99,235,0.5);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 24px 20px;
+    }
+    
+    .title {
+        font-size: 20px;
+    }
+}
 </style>
 </head>
 <body>
-<table width="100%" height="100%">
-
-<tr>
-<td align="center" valign="middle">
-Hotspot ERROR: $(error)<br>
-<br>
-Login page: <a href="$(link-login)">$(link-login)</a>
-</td>
-</tr>
-</table>
+<div class="container">
+    <div class="icon">⚠️</div>
+    <div class="logo">$(identity)</div>
+    <div class="title">Connection Error</div>
+    
+    <div class="error-message">
+        $(error)
+    </div>
+    
+    <div class="error-details">
+        $(if error == 'invalid user')
+            The username or password is incorrect. Please check your voucher code and try again.
+        $(elif error == 'session already active')
+            This voucher is already being used on another device. Please disconnect the other device first or use a different voucher.
+        $(elif error == 'user already logged in')
+            This voucher is already active on another device. Only one device can use this voucher at a time.
+        $(else)
+            Unable to connect to WiFi. Please try again or contact support if the problem persists.
+        $(endif)
+    </div>
+    
+    <a href="$(link-login)" class="btn">Try Again</a>
+</div>
 </body>
 </html>
