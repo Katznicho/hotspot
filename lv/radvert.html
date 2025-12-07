@@ -1,62 +1,189 @@
-<html>
+<!DOCTYPE html>
+<html lang="lv">
 <head>
-<title>mikrotik hotspot > advertisement</title>
+<title>WiFi Reklāma</title>
 <meta http-equiv="refresh" content="2; url=$(link-orig)">
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1257">
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="expires" content="-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
 <style type="text/css">
-<!--
-textarea,input,select {
-	background-color: #FDFBFB;
-	border: 1px #BBBBBB solid;
-	padding: 2px;
-	margin: 1px;
-	font-size: 14px;
-	color: #808080;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-body{ color: #737373; font-size: 12px; font-family: verdana; }
-
-a, a:link, a:visited, a:active { color: #AAAAAA; text-decoration: none; font-size: 12px; }
-a:hover { border-bottom: 1px dotted #c1c1c1; color: #AAAAAA; }
-img {border: none;}
-td { font-size: 12px; color: #7A7A7A; }
-
--->
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #050816;
+        color: #e5e7eb;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .container {
+        text-align: center;
+        max-width: 420px;
+        padding: 24px 20px 28px;
+        background: radial-gradient(circle at top, rgba(251,191,36,0.15), transparent 55%),
+                    radial-gradient(circle at bottom, rgba(245,158,11,0.18), transparent 60%),
+                    #020617;
+        border-radius: 18px;
+        box-shadow:
+            0 18px 45px rgba(15,23,42,0.7),
+            0 0 0 1px rgba(148,163,184,0.18);
+    }
+    
+    .logo {
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        font-size: 13px;
+        text-transform: uppercase;
+        color: #fcd34d;
+        margin-bottom: 6px;
+    }
+    
+    .title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #f9fafb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .ad-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: linear-gradient(to right, #fbbf24, #f59e0b);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    
+    .ad-icon::after {
+        content: "📢";
+        font-size: 14px;
+    }
+    
+    .subtitle {
+        font-size: 13px;
+        color: #fde68a;
+        margin-bottom: 20px;
+    }
+    
+    .spinner {
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        border: 3px solid rgba(148,163,184,0.3);
+        border-top-color: #fbbf24;
+        animation: spin 0.8s linear infinite;
+        margin: 16px auto;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    .message {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-top: 16px;
+        line-height: 1.6;
+    }
+    
+    .manual-link {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 10px 20px;
+        border-radius: 999px;
+        background: rgba(251,191,36,0.1);
+        border: 1px solid rgba(251,191,36,0.3);
+        color: #fcd34d;
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        target: hotspot_advert;
+    }
+    
+    .manual-link:hover {
+        background: rgba(251,191,36,0.2);
+        border-color: rgba(251,191,36,0.5);
+        transform: translateY(-1px);
+    }
+    
+    .meta {
+        margin-top: 20px;
+        font-size: 10px;
+        color: #6b7280;
+        line-height: 1.6;
+    }
 </style>
-<script language="JavaScript">
-<!--
+
+<script type="text/javascript">
     var popup = '';
+    
     function openOrig() {
-	if (window.focus) popup.focus();
-	location.href = '$(link-orig)';
+        if (window.focus) popup.focus();
+        location.href = '$(link-orig)';
     }
+    
     function openAd() {
-	location.href = '$(link-redirect)';
+        location.href = '$(link-redirect)';
     }
+    
     function openAdvert() {
-	if (window.name != 'hotspot_advert') {
-		popup = open('$(link-redirect)', 'hotspot_advert', '');
-		setTimeout("openOrig()", 1000);
-		return;
-	}
-	setTimeout("openAd()", 1000);
+        if (window.name != 'hotspot_advert') {
+            popup = open('$(link-redirect)', 'hotspot_advert', '');
+            setTimeout("openOrig()", 1000);
+            return;
+        }
+        setTimeout("openAd()", 1000);
     }
-//-->
+    
+    // Execute on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', openAdvert);
+    } else {
+        openAdvert();
+    }
 </script>
 </head>
-<body onLoad="openAdvert()">
-<table width="100%" height="100%">
-<tr>
-	<td align="center" valign="middle">
-	Rekl�ma.
-	<br><br>
-	Ja nekas nenotiek, atveriet
-	<a href="$(link-redirect)" target="hotspot_advert">rekl�mu</a>
-	pa�roc�gi.
-	</td>
-</tr>
-</table>
+<body>
+<div class="container">
+    <div class="logo">Julio WiFi</div>
+    <div class="title">
+        <span class="ad-icon"></span>
+        <span>Reklāma</span>
+    </div>
+    <div class="subtitle">Ielādē reklāmu...</div>
+    
+    <div class="spinner"></div>
+    
+    <div class="message">
+        Tiks atvērts reklāmas logs.<br/>
+        Novirzām jūs tūlīt.
+    </div>
+    
+    <a href="$(link-redirect)" target="hotspot_advert" class="manual-link">
+        Atvērt reklāmu →
+    </a>
+    
+    <div class="meta">
+        Maršrutizētājs: <span>$(identity)</span><br/>
+        Jūsu MAC: <span>$(mac-esc)</span>
+    </div>
+</div>
 </body>
 </html>

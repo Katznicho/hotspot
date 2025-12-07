@@ -1,100 +1,225 @@
-<html>
+<!DOCTYPE html>
+<html lang="lv">
 <head>
-<title>mikrotik hotspot > statuss</title>
+<title>WiFi Statuss - $(identity)</title>
 $(if refresh-timeout)
 <meta http-equiv="refresh" content="$(refresh-timeout-secs)">
 $(endif)
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1257">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="expires" content="-1">
+<meta name="viewport" content="width=device-width; initial-scale=1.0">
 <style type="text/css">
-<!--
-textarea,input,select {
-	background-color: #FDFBFB;
-	border: 1px #BBBBBB solid;
-	padding: 2px;
-	margin: 1px;
-	font-size: 14px;
-	color: #808080;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.tabula{
- 
-border-width: 1px; 
-border-collapse: collapse; 
-border-color: #c1c1c1; 
-background-color: transparent;
-font-family: verdana;
-font-size: 11px;
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #050816;
+    color: #e5e7eb;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-body{ color: #737373; font-size: 12px; font-family: verdana; }
+.container {
+    background: radial-gradient(circle at top, rgba(56,189,248,0.15), transparent 55%),
+                radial-gradient(circle at bottom, rgba(129,140,248,0.18), transparent 60%),
+                #020617;
+    border-radius: 18px;
+    padding: 32px 28px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 18px 45px rgba(15,23,42,0.7),
+                0 0 0 1px rgba(148,163,184,0.18);
+}
 
-a, a:link, a:visited, a:active { color: #AAAAAA; text-decoration: none; font-size: 12px; }
-a:hover { border-bottom: 1px dotted #c1c1c1; color: #AAAAAA; }
-img {border: none;}
-td { font-size: 12px; padding: 4px;}
+.header {
+    text-align: center;
+    margin-bottom: 28px;
+}
 
--->
+.logo {
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #a5b4fc;
+    margin-bottom: 8px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #f9fafb;
+    margin-bottom: 6px;
+}
+
+.welcome {
+    font-size: 14px;
+    color: #cbd5f5;
+    margin-bottom: 24px;
+}
+
+.status-card {
+    background: rgba(15,23,42,0.5);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(148,163,184,0.18);
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+}
+
+.status-row:last-child {
+    border-bottom: none;
+}
+
+.status-label {
+    font-size: 13px;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.status-value {
+    font-size: 14px;
+    color: #e5e7eb;
+    font-weight: 600;
+    text-align: right;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(to right, #ef4444, #dc2626);
+    color: #fee2e2;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow:
+        0 10px 25px rgba(239,68,68,0.35),
+        0 0 0 1px rgba(185,28,28,0.4);
+    width: 100%;
+}
+
+.btn:hover {
+    background: linear-gradient(to right, #dc2626, #b91c1c);
+    transform: translateY(-1px);
+}
+
+.btn span.icon {
+    font-size: 15px;
+}
+
+.meta {
+    margin-top: 14px;
+    font-size: 10px;
+    color: #6b7280;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.status-value a {
+    color: #FF8080;
+    text-decoration: underline;
+}
 </style>
-<script language="JavaScript">
-<!--
-$(if advert-pending == 'yes')
-    var popup = '';
-    function focusAdvert() {
-	if (window.focus) popup.focus();
-    }
-    function openAdvert() {
-	popup = open('$(link-advert)', 'hotspot_advert', '');
-	setTimeout("focusAdvert()", 1000);
-    }
-$(endif)
+<script type="text/javascript">
+    $(if advert-pending == 'yes')
+        var popup = '';
+        function focusAdvert() {
+            if (window.focus) popup.focus();
+        }
+        function openAdvert() {
+            popup = open('$(link-advert)', 'hotspot_advert', '');
+            setTimeout("focusAdvert()", 1000);
+        }
+    $(endif)
     function openLogout() {
-	if (window.name != 'hotspot_status') return true;
+        if (window.name != 'hotspot_status') return true;
         open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
-	window.close();
-	return false;
+        window.close();
+        return false;
     }
-//-->
 </script>
 </head>
-<body bottommargin="0" topmargin="0" leftmargin="0" rightmargin="0"
-$(if advert-pending == 'yes')
-	onLoad="openAdvert()"
-$(endif)
->
-<table width="100%" height="100%">
+<body $(if advert-pending == 'yes') onLoad="openAdvert()" $(endif)>
+<div class="container">
+    <div class="header">
+        <div class="logo">Julio WiFi</div>
+        <div class="title">Jūs esat savienots!</div>
+        $(if login-by == 'trial')
+            <div class="welcome">Sveiks izmēģinājuma lietotājs!</div>
+        $(elif login-by != 'mac')
+            <div class="welcome">Sveiks $(username)!</div>
+        $(endif)
+    </div>
 
-<tr>
-<td align="center" valign="middle">
-<form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
-<table border="1" class="tabula">
-$(if login-by == 'trial')
-	<br><div style="text-align: center;">Sveiks!</div><br>
-$(elif login-by != 'mac')
-	<br><div style="text-align: center;">Sveiks $(username)!</div><br>
-$(endif)
-	<tr><td align="right">IP adrese:</td><td>$(ip)</td></tr>
-	<tr><td align="right">baiti prom/�urp:</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr>
-$(if session-time-left)
-	<tr><td align="right">ilgums / atlicis:</td><td>$(uptime) / $(session-time-left)</td></tr>
-$(else)
-	<tr><td align="right">ilgums:</td><td>$(uptime)</td></tr>
-$(endif)
-$(if blocked == 'yes')
-	<tr><td align="right">statuss:</td><td><div style="color: #FF8080">
-nepiecie�ama <a href="$(link-advert)" target="hotspot_advert">rekl�ma</a></div></td>
-$(elif refresh-timeout)
-	<tr><td align="right">interv�ls:</td><td>$(refresh-timeout)</td>
-$(endif)
+    <div class="status-card">
+        <div class="status-row">
+            <span class="status-label">IP adrese:</span>
+            <span class="status-value">$(ip)</span>
+        </div>
+        <div class="status-row">
+            <span class="status-label">Baiti prom/šurp:</span>
+            <span class="status-value">$(bytes-in-nice) / $(bytes-out-nice)</span>
+        </div>
+        <div class="status-row">
+            <span class="status-label">Savienots:</span>
+            <span class="status-value">$(uptime)</span>
+        </div>
+        $(if session-time-left)
+        <div class="status-row">
+            <span class="status-label">Atlikušais laiks:</span>
+            <span class="status-value">$(session-time-left)</span>
+        </div>
+        $(endif)
+        $(if blocked == 'yes')
+        <div class="status-row">
+            <span class="status-label">Statuss:</span>
+            <span class="status-value" style="color: #FF8080">
+                <a href="$(link-advert)" target="hotspot_advert" style="color: #FF8080; text-decoration: underline;">nepieciešama reklāma</a>
+            </span>
+        </div>
+        $(elif refresh-timeout)
+        <div class="status-row">
+            <span class="status-label">Atjaunošanas intervāls:</span>
+            <span class="status-value">$(refresh-timeout)</span>
+        </div>
+        $(endif)
+    </div>
 
-</table>
-$(if login-by-mac != 'yes')
-<br>
-<input type="submit" value="atsl�gties">
-$(endif)
-</form>
-</td>
-</table>
+    $(if login-by-mac != 'yes')
+    <form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
+        <button type="submit" class="btn">
+            <span class="icon">❌</span>
+            <span>Atslēgties</span>
+        </button>
+    </form>
+    $(endif)
+
+    <div class="meta">
+        Maršrutizētājs: <span>$(identity)</span><br/>
+        Jūsu MAC: <span>$(mac-esc)</span>
+    </div>
+</div>
 </body>
 </html>

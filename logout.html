@@ -1,73 +1,206 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>mikrotik hotspot > logout</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="expires" content="-1">
+<title>WiFi Logout - Logged Out</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
 <style type="text/css">
-<!--
-textarea,input,select {
-	background-color: #FDFBFB;
-	border: 1px #BBBBBB solid;
-	padding: 2px;
-	margin: 1px;
-	font-size: 14px;
-	color: #808080;
-}
-
-.tabula{
- 
-border-width: 1px; 
-border-collapse: collapse; 
-border-color: #c1c1c1; 
-background-color: transparent;
-font-family: verdana;
-font-size: 11px;
-}
-
-body{ color: #737373; font-size: 12px; font-family: verdana; }
-
-a, a:link, a:visited, a:active { color: #AAAAAA; text-decoration: none; font-size: 12px; }
-a:hover { border-bottom: 1px dotted #c1c1c1; color: #AAAAAA; }
-img {border: none;}
-td { font-size: 12px; padding: 4px;}
-
--->
-</style>
-</head>
-
-<body>
-<script language="JavaScript">
-<!--
-    function openLogin() {
-	if (window.name != 'hotspot_logout') return true;
-	open('$(link-login)', '_blank', '');
-	window.close();
-	return false;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
-//-->
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #050816;
+        color: #e5e7eb;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .container {
+        text-align: center;
+        max-width: 420px;
+        padding: 24px 20px 28px;
+        background: radial-gradient(circle at top, rgba(239,68,68,0.15), transparent 55%),
+                    radial-gradient(circle at bottom, rgba(220,38,38,0.18), transparent 60%),
+                    #020617;
+        border-radius: 18px;
+        box-shadow:
+            0 18px 45px rgba(15,23,42,0.7),
+            0 0 0 1px rgba(148,163,184,0.18);
+    }
+    
+    .logo {
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        font-size: 13px;
+        text-transform: uppercase;
+        color: #fca5a5;
+        margin-bottom: 6px;
+    }
+    
+    .title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #f9fafb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .logout-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: linear-gradient(to right, #ef4444, #dc2626);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    
+    .logout-icon::after {
+        content: "→";
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    
+    .subtitle {
+        font-size: 13px;
+        color: #fecaca;
+        margin-bottom: 20px;
+    }
+    
+    .session-info {
+        text-align: left;
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(15,23,42,0.5);
+        border-radius: 8px;
+        border: 1px solid rgba(148,163,184,0.3);
+    }
+    
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px dashed rgba(148,163,184,0.1);
+    }
+    
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        font-size: 12px;
+        color: #9ca3af;
+    }
+    
+    .info-value {
+        font-size: 12px;
+        font-weight: 500;
+        color: #e5e7eb;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 20px;
+        padding: 9px 16px;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(to right, #38bdf8, #0ea5e9);
+        color: #e0f2fe;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow:
+            0 10px 25px rgba(56,189,248,0.35),
+            0 0 0 1px rgba(2,132,199,0.4);
+    }
+    
+    .btn:hover {
+        background: linear-gradient(to right, #0ea5e9, #0284c7);
+        transform: translateY(-1px);
+    }
+    
+    .meta {
+        margin-top: 14px;
+        font-size: 10px;
+        color: #6b7280;
+    }
+</style>
+
+<script type="text/javascript">
+    function openLogin() {
+        if (window.name != 'hotspot_logout') return true;
+        open('$(link-login)', '_blank', '');
+        window.close();
+        return false;
+    }
 </script>
+</head>
+<body>
+<div class="container">
+    <div class="logo">Julio WiFi</div>
+    <div class="title">
+        <span class="logout-icon"></span>
+        <span>You have logged out</span>
+    </div>
+    <div class="subtitle">Session ended successfully</div>
 
-<table width="100%" height="100%">
+    <div class="session-info">
+        <div class="info-row">
+            <span class="info-label">User Name:</span>
+            <span class="info-value">$(username)</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">IP Address:</span>
+            <span class="info-value">$(ip)</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">MAC Address:</span>
+            <span class="info-value">$(mac)</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Session Time:</span>
+            <span class="info-value">$(uptime)</span>
+        </div>
+        $(if session-time-left)
+        <div class="info-row">
+            <span class="info-label">Time Left:</span>
+            <span class="info-value">$(session-time-left)</span>
+        </div>
+        $(endif)
+        <div class="info-row">
+            <span class="info-label">Bytes Up/Down:</span>
+            <span class="info-value">$(bytes-in-nice) / $(bytes-out-nice)</span>
+        </div>
+    </div>
 
-<tr>
-<td align="center" valign="middle">
-<b>you have just logged out</b> <br><br>
-<table class="tabula" border="1">  
-<tr><td align="right">user name</td><td>$(username)</td></tr>
-<tr><td align="right">IP address</td><td>$(ip)</td></tr>
-<tr><td align="right">MAC address</td><td>$(mac)</td></tr>
-<tr><td align="right">session time</td><td>$(uptime)</td></tr>
-$(if session-time-left)
-<tr><td align="right">time left</td><td>$(session-time-left)</td></tr>
-$(endif)
-<tr><td align="right">bytes up/down:</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr>
-</table>
-<br>
-<form action="$(link-login)" name="login" onSubmit="return openLogin()">
-<input type="submit" value="log in">
-</form>
-</td>
-</table>
+    <form action="$(link-login)" name="login" onSubmit="return openLogin()">
+        <button type="submit" class="btn">
+            <span>Log In Again</span>
+        </button>
+    </form>
+
+    <div class="meta">
+        Router: <span>$(identity)</span>
+    </div>
+</div>
 </body>
 </html>
